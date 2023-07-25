@@ -166,20 +166,24 @@ async function* asyncGenerator() {
   let i = 0;
   while (true) {
     await new Promise((resolve) => setTimeout(() => resolve(i++), 1000));
+    yield i;
   }
 }
 
-let gen = asyncGenerator();
+// Змінна "gein" замість "gen"
+let gein = asyncGenerator();
 
 async function printFiveItems() {
-  for await (let value of gen) {
+  let counter = 0;
+  for await (let value of gein) {
     console.log(value);
-    if (value === 4) {
+    counter++;
+    if (counter === 5) {
       break;
     }
   }
 }
-// Розкоментуйте після виконання завданння
+
 console.log("Завдання: 5 ==============================");
 printFiveItems();
 
@@ -307,11 +311,8 @@ function* countdownGenerator(start) {
 }
 
 console.log("Завдання: 7 ==============================");
-const countdown = countdownGenerator(5);
+const countdownGen = countdownGenerator(5); // Змінили назву змінної на countdownGen
 
-let nextValue = countdown.next();
-
-while (!nextValue.done) {
-  console.log(nextValue.value);
-  nextValue = countdown.next();
+for (let value of countdownGen) {
+  console.log(value);
 }
